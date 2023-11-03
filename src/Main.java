@@ -1,25 +1,42 @@
+import task.MandelbrotTask;
+import task.PoisonPill;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 
 import static java.lang.Thread.sleep;
 
 public class Main {
 
-    // Inicia los threads necesarios usando ThreadPool.
-    // Introduce las regiones a procesar en el Buffer.
-    // Cada Worker toma las tareas de a una del Buffer y genera los pixeles.
-    // cant_threads == la cantidad de threads :V
-    // Parametros dados por medio de la consola:
-    //    alto, ancho, x_inicial, y_inicial, x_rango, y_rango, cant_iteraciones, cant_threads, y
-    //    tamano_buffer.
+    // TODO: Inicia los threads necesarios usando ThreadPool.
+    // TODO: Introduce las regiones a procesar en el Buffer.
+    // TODO: Cada Worker toma las tareas de a una del Buffer y genera los pixeles.
+    // TODO: cant_threads == la cantidad de threads :V
     public static void main(String[] args) throws InterruptedException {
+
+        ScannerInput scannerInput = new ScannerInput();
+
+        ThreadPool threadPool = new ThreadPool(scannerInput.getCant_threads());
+        Buffer buffer = new Buffer(scannerInput.getTamano_buffer());
+        Worker[] workers = new Worker[scannerInput.getCant_threads()];
+        for (int i = 0; i < scannerInput.getCant_threads(); i++) {
+            workers[i] = new Worker(buffer);
+            workers[i].start();
+        }
+
+
+
+
+
+
         long initialTime = System.currentTimeMillis();
 
-        System.out.println("Hello world!");
+
         BufferedImage bi = new BufferedImage(256, 256, BufferedImage.TYPE_INT_RGB);
         WritableRaster raster = bi.getRaster();
 

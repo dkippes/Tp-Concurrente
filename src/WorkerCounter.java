@@ -1,6 +1,24 @@
 class WorkerCounter {
-    //    (implementada como un monitor utilizando metodos
-    //    synchronized)
-    //    evita que Main termine su ejecuci ́on mientras queden threads
-    //    trabajando.
+    private int workers;
+
+    public WorkerCounter() {
+        this.workers = 0;
+    }
+
+    public synchronized void increment() {
+        workers++;
+    }
+
+    public synchronized void decrement() {
+        workers--;
+        if (workers == 0) {
+            notifyAll();
+        }
+    }
+
+    public synchronized void waitUntilFinished() throws InterruptedException {
+        while (workers > 0) {
+            wait();
+        }
+    }
 }

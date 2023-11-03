@@ -1,50 +1,38 @@
-class Buffer {
-    // actua como una cola FIFO concurrente de capacidad acotada.
-    // bloquea a un lector intentando sacar un elemento cuando est ́a vac ́ıa y bloquea a
-    //un productor intentando agregar un elemento cuando est ́a llena.
+import java.util.LinkedList;
 
+public class Buffer<T> {
+    private LinkedList<T> data;
+    private int size;
 
-    //    bloquea a un lector intentando sacar un elemento cuando est ́a vac ́ıa y bloquea a
-    //    un productor intentando agregar un elemento cuando est ́a llena.
-
-    private int quantity = 0;
-    private Object[] data = new Object[quantity + 1];
-    private int begin = 0, end = 0;
-
-    Buffer(int quantity) {
-        this.quantity = quantity;
+    public Buffer(int size) {
+        this.data = new LinkedList<>();
+        this.size = size;
     }
 
-    synchronized void write(Object o) throws InterruptedException {
+    public synchronized void write(T o) throws InterruptedException {
         while (isFull()) {
             wait();
         }
-        data[begin] = o;
-        begin = next(begin);
+
+        data.add(o);
         notifyAll();
     }
 
-    synchronized Object read() throws InterruptedException {
+    public synchronized T read() throws InterruptedException {
         while (isEmpty()) {
             wait();
         }
-        Object result = data[end];
-        end = next(end);
+
+        T o = data.removeFirst();
         notifyAll();
-        return result;
+        return o;
     }
 
     private boolean isEmpty() {
-        return begin == end;
+        return data.isEmpty();
     }
 
     private boolean isFull() {
-        return next(begin) == end;
+        return data.size() == size;
     }
-
-    private int next(int i) {
-        return (i + 1) % (quantity + 1);
-    }
-
-
 }
