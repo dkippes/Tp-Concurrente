@@ -1,87 +1,82 @@
 import java.util.Scanner;
 
 public class ScannerInput {
-    private int alto;
-    private int ancho;
-    private double x_inicial;
-    private double y_inicial;
-    private double x_rango;
-    private double y_rango;
-    private int cant_iteraciones;
-    private int cant_threads;
-    private double y;
-    private int tamano_buffer;
+    private int height;
+    private int width;
+    private double x_start;
+    private double y_start;
+    private double x_range;
+    private double y_range;
+    private int num_iterations;
+    private int num_threads;
+    private int buffer_size;
 
     public ScannerInput() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Ingrese el valor de alto: ");
-        alto = scanner.nextInt();
+        System.out.print("Enter the value of num_threads: ");
+        num_threads = scanner.nextInt();
 
-        System.out.print("Ingrese el valor de ancho: ");
-        ancho = scanner.nextInt();
+        System.out.print("Enter the value of buffer_size: ");
+        buffer_size = scanner.nextInt();
 
-        System.out.print("Ingrese el valor de x_inicial: ");
-        x_inicial = scanner.nextDouble();
+        System.out.print("Enter the value of height: ");
+        height = scanner.nextInt();
 
-        System.out.print("Ingrese el valor de y_inicial: ");
-        y_inicial = scanner.nextDouble();
+        System.out.print("Enter the value of width: ");
+        width = scanner.nextInt();
 
-        System.out.print("Ingrese el valor de x_rango: ");
-        x_rango = scanner.nextDouble();
+        System.out.print("Enter the value of x_start: ");
+        x_start = scanner.nextDouble();
 
-        System.out.print("Ingrese el valor de y_rango: ");
-        y_rango = scanner.nextDouble();
+        System.out.print("Enter the value of x_range: ");
+        x_range = scanner.nextDouble();
 
-        System.out.print("Ingrese el valor de cant_iteraciones: ");
-        cant_iteraciones = scanner.nextInt();
+        System.out.print("Enter the value of y_start: ");
+        y_start = scanner.nextDouble();
 
-        System.out.print("Ingrese el valor de cant_threads: ");
-        cant_threads = scanner.nextInt();
+        System.out.print("Enter the value of y_range: ");
+        y_range = scanner.nextDouble();
 
-        System.out.print("Ingrese el valor de tamano_buffer: ");
-        tamano_buffer = scanner.nextInt();
+        System.out.print("Enter the value of num_iterations: ");
+        num_iterations = scanner.nextInt();
 
         scanner.close();
     }
 
-    public int getAlto() {
-        return alto;
+    public int getHeight() {
+        return height;
     }
 
-    public int getAncho() {
-        return ancho;
+    public int getWidth() {
+        return width;
     }
 
-    public double getX_inicial() {
-        return x_inicial;
+    public double getXStart() {
+        return x_start;
     }
 
-    public double getY_inicial() {
-        return y_inicial;
+    public double getYStart() {
+        return y_start;
     }
 
-    public double getX_rango() {
-        return x_rango;
+    public double getXRange() {
+        return x_range;
     }
 
-    public double getY_rango() {
-        return y_rango;
+    public double getYRange() {
+        return y_range;
     }
 
-    public int getCant_iteraciones() {
-        return cant_iteraciones;
+    public int getNumIterations() {
+        return num_iterations;
     }
 
-    public int getCant_threads() {
-        return cant_threads;
+    public int getNumThreads() {
+        return num_threads;
     }
 
-    public double getY() {
-        return y;
-    }
-
-    public int getTamano_buffer() {
-        return tamano_buffer;
+    public int getBufferSize() {
+        return buffer_size;
     }
 }
