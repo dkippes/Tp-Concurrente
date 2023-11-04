@@ -1,4 +1,3 @@
 package exceptions
 
-class PoisonPillException {
-}
+internal class PoisonPillException : RuntimeException("Thread finished due to PoisonPill")
