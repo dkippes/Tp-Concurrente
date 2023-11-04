@@ -4,19 +4,19 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 
-public class MandelbrotTask implements Runnable {
+public class MandelbrotTask extends Task {
 
-    private int width;
-    private int height;
-    private int startX;
-    private int endX;
-    private int startY;
-    private int endY;
+    private double width;
+    private double height;
+    private double startX;
+    private double endX;
+    private double startY;
+    private double endY;
     private int cant_iteraciones;
     WritableRaster raster;
 
 
-    public MandelbrotTask(int width, int height, int startX, int endX, int startY, int endY, int cant_iteraciones) {
+    public MandelbrotTask(double width, double height, double startX, double endX, double startY, double endY, int cant_iteraciones, WritableRaster raster) {
         this.width = width;
         this.height = height;
         this.startX = startX;
@@ -25,7 +25,7 @@ public class MandelbrotTask implements Runnable {
         this.endY = endY;
 
         this.cant_iteraciones = cant_iteraciones;
-        raster = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB).getRaster();
+        this.raster = raster;
     }
 
     @Override
@@ -45,19 +45,20 @@ public class MandelbrotTask implements Runnable {
             b[i] = argb & 255;
         }
 
-        for (int i = startY; i < endY; i++) {
-            for (int j = startX; j < endX; j++) {
-                // Evalua el color del píxel
-                int[] color = evaluateColor(i, j, r,g,b);
+        for (double i = startY; i < endY; i++) {
+            for (double j = startX; j < endX; j++) {
+                // Evalúa el color del píxel
+                int[] color = evaluateColor(i, j, r, g, b);
 
                 // Asigna el color al píxel
-                raster.setPixel(i, j, color);
+                raster.setPixel((int) i, (int) j, color);
             }
         }
+
     }
 
     // Evalua el color del píxel
-    private int[] evaluateColor(int i, int j, int[] r, int[] g, int[] b) {
+    private int[] evaluateColor(double i, double j, int[] r, int[] g, int[] b) {
         // Mapea la posición del píxel en el eje x
         double x0 = map(j, 0, width, -2.0, 2.0);
 
@@ -88,7 +89,7 @@ public class MandelbrotTask implements Runnable {
     }
 
     // Mapea el valor de la coordenada x a un valor entre [minY, maxY]
-    private double map(int x, int minX, int maxX, double minY, double maxY) {
+    private double map(double x, double minX, double maxX, double minY, double maxY) {
         return (x - minX) / (maxX - minX) * (maxY - minY) + minY;
     }
 }

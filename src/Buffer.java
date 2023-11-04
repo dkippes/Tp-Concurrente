@@ -20,9 +20,13 @@ public class Buffer {
         notifyAll();
     }
 
-    public synchronized Task read() throws InterruptedException {
+    public synchronized Task read() {
         while (isEmpty()) {
-            wait();
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         Task task = tasks.removeFirst();

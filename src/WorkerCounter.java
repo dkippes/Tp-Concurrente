@@ -12,7 +12,7 @@ class WorkerCounter {
     public synchronized void decrement() {
         workers--;
         if (workers == 0) {
-            notifyAll();
+            notify();
         }
     }
 
@@ -21,4 +21,5 @@ class WorkerCounter {
             wait();
         }
     }
+
 }
