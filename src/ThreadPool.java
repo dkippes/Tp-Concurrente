@@ -3,22 +3,18 @@ import java.util.concurrent.Executors;
 
 public class ThreadPool {
 
-    private Buffer buffer;
-    private WorkerCounter workerCounter;
+    private Worker[] workers;
 
-    private int cantThreads;
-
-    public ThreadPool(int cantThreads, Buffer buffer, WorkerCounter workerCounter) {
-        this.buffer = buffer;
-        this.workerCounter = workerCounter;
-        this.cantThreads = cantThreads;
+    public ThreadPool(int numThreads, Buffer buffer, WorkerCounter workerCounter) {
+        workers = new Worker[numThreads];
+        for (int i = 0; i < numThreads; i++) {
+            workers[i] = new Worker(buffer, workerCounter);
+        }
     }
 
     public void start() {
-        ExecutorService executorService = Executors.newFixedThreadPool(cantThreads);
-        for (int i = 0; i < cantThreads; i++) {
-            executorService.execute(new Worker(buffer, workerCounter));
-            workerCounter.increment();
+        for (Worker worker : workers) {
+            worker.start();
         }
     }
 

@@ -1,25 +1,24 @@
 class WorkerCounter {
-    private int workers;
+    private int remainingWorkers;
 
-    public WorkerCounter() {
-        this.workers = 0;
+    public WorkerCounter(int totalWorkers) {
+        this.remainingWorkers = totalWorkers;
     }
 
-    public synchronized void increment() {
-        workers++;
-    }
-
-    public synchronized void decrement() {
-        workers--;
-        if (workers == 0) {
+    public synchronized void workerFinished() {
+        remainingWorkers--;
+        if (remainingWorkers == 0) {
             notify();
         }
     }
 
-    public synchronized void waitUntilFinished() throws InterruptedException {
-        while (workers > 0) {
-            wait();
+    public synchronized void waitForCompletion() {
+        while (remainingWorkers > 0) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
-
 }

@@ -3,8 +3,8 @@ import task.PoisonPill;
 import task.Task;
 
 public class Worker extends Thread {
-    private final Buffer buffer;
-    private final WorkerCounter workerCounter;
+    private Buffer buffer;
+    private WorkerCounter workerCounter;
 
     public Worker(Buffer buffer, WorkerCounter workerCounter) {
         this.buffer = buffer;
@@ -14,13 +14,12 @@ public class Worker extends Thread {
     @Override
     public void run() {
         while (true) {
-            try {
-                Task task = buffer.read();
-                task.run();
-            }  catch (PoisonPillException e) {
-                workerCounter.decrement();
+            Task task = buffer.get();
+            if (task instanceof PoisonPill) {
+                workerCounter.workerFinished();
                 break;
             }
+            task.run();
         }
     }
 }

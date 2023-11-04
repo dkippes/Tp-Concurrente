@@ -16,7 +16,7 @@ public class ScannerInput {
 
 //        System.out.print("Enter the value of num_threads: ");
 //        num_threads = scanner.nextInt();
-        num_threads = 4;
+        num_threads = 40;
 
 //        System.out.print("Enter the value of buffer_size: ");
 //        buffer_size = scanner.nextInt();
@@ -48,7 +48,7 @@ public class ScannerInput {
 
 //        System.out.print("Enter the value of num_iterations: ");
 //        num_iterations = scanner.nextInt();
-        num_iterations = 1000;
+        num_iterations = 20;
 
         scanner.close();
     }

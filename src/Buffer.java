@@ -4,41 +4,35 @@ import java.util.LinkedList;
 
 public class Buffer {
     private LinkedList<Task> tasks;
-    private int size;
+    private int capacity;
 
-    public Buffer(int size) {
+    public Buffer(int capacity) {
         this.tasks = new LinkedList<>();
-        this.size = size;
+        this.capacity = capacity;
     }
 
-    public synchronized void write(Task task) throws InterruptedException {
-        while (isFull()) {
-            wait();
+    public synchronized void put(Task task) {
+        while (tasks.size() >= capacity) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
-
         tasks.add(task);
         notifyAll();
     }
 
-    public synchronized Task read() {
-        while (isEmpty()) {
+    public synchronized Task get() {
+        while (tasks.isEmpty()) {
             try {
                 wait();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
         }
-
         Task task = tasks.removeFirst();
         notifyAll();
         return task;
-    }
-
-    private boolean isEmpty() {
-        return tasks.isEmpty();
-    }
-
-    private boolean isFull() {
-        return tasks.size() == size;
     }
 }

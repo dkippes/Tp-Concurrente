@@ -1,5 +1,6 @@
 import task.MandelbrotTask;
 import task.PoisonPill;
+import task.Task;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -18,47 +19,57 @@ public class Main {
     // TODO: Cada Worker toma las tareas de a una del Buffer y genera los pixeles.
     // TODO: cant_threads == la cantidad de threads :V
     public static void main(String[] args) throws InterruptedException {
-
-
-        long initialTime = System.currentTimeMillis();
-
+        long startTime = System.currentTimeMillis();
         ScannerInput scannerInput = new ScannerInput();
+        int alto = scannerInput.getHeight();
+        int ancho = scannerInput.getWidth();
+        double x_inicial = scannerInput.getXStart();
+        double y_inicial = scannerInput.getYStart();
+        double x_rango = scannerInput.getXRange();
+        double y_rango = scannerInput.getYRange();
+        int cant_iteraciones = scannerInput.getNumIterations();
+        int cant_threads = scannerInput.getNumThreads();
+        int tamano_buffer = scannerInput.getBufferSize();
 
-        WorkerCounter workerCounter = new WorkerCounter();
-        Buffer buffer = new Buffer(scannerInput.getBufferSize());
+        BufferedImage imagen = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_RGB);
+        Buffer buffer = new Buffer(tamano_buffer);
+        WorkerCounter workerCounter = new WorkerCounter(cant_threads);
 
-
-        BufferedImage bi = new BufferedImage(scannerInput.getWidth(), scannerInput.getHeight(), BufferedImage.TYPE_INT_RGB);
-        WritableRaster raster = bi.getRaster();
-        System.out.println("se creo el raster");
-
-        ThreadPool threadPool = new ThreadPool(scannerInput.getNumThreads(), buffer, workerCounter);
+        ThreadPool threadPool = new ThreadPool(cant_threads, buffer, workerCounter);
         threadPool.start();
 
-        System.out.println("se termino de agregar los threads");
+        // Divide la región a graficar en tareas y ponlas en el buffer
+        double x_step = x_rango / ancho;
+        double y_step = y_rango / alto;
 
-        for (int i = 0; i < scannerInput.getHeight(); i++) {
-            buffer.write(new MandelbrotTask(scannerInput.getHeight(), scannerInput.getWidth(), scannerInput.getXStart(), scannerInput.getYStart() + i, scannerInput.getXRange(), scannerInput.getYRange(), scannerInput.getNumIterations(), raster));
+        for (int row = 0; row < alto; row++) {
+            for (int col = 0; col < ancho; col++) {
+                double x = x_inicial + col * x_step;
+                double y = y_inicial - row * y_step;
+                Task task = new MandelbrotTask(imagen, col, row, x, y, cant_iteraciones);
+                buffer.put(task);
+            }
         }
 
-        for (int i = 0; i < scannerInput.getNumThreads(); i++) {
-            buffer.write(new PoisonPill());
+        // Agrega las Poison Pills al buffer
+        for (int i = 0; i < cant_threads; i++) {
+            buffer.put(new PoisonPill());
         }
 
-        System.out.println("se termino de agregar las tareas");
+        // Espera a que todos los threads terminen
+        workerCounter.waitForCompletion();
 
-        workerCounter.waitUntilFinished();
-
-        File outputfile = new File("./output/test.png");
+        // Guarda la imagen generada en un archivo
         try {
-            ImageIO.write(bi, "png", outputfile);
-        } catch (IOException e) {
-            // TODO Auto - generated catch block
+            File output = new File("mandelbrot.png");
+            ImageIO.write(imagen, "PNG", output);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        System.out.println("---- TIME ----");
-        System.out.println((System.currentTimeMillis() - initialTime) / 1000.0);
+        // Calcula y muestra el tiempo transcurrido
+        long endTime = System.currentTimeMillis();
+        System.out.println("Tiempo transcurrido: " + (endTime - startTime) + " ms");
     }
 
 }
