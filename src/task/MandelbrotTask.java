@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 
-public class Task implements Runnable {
+public class MandelbrotTask implements Runnable {
 
     private int width;
     private int height;
@@ -16,7 +16,7 @@ public class Task implements Runnable {
     WritableRaster raster;
 
 
-    public Task(int width, int height, int startX, int endX, int startY, int endY, int cant_iteraciones) {
+    public MandelbrotTask(int width, int height, int startX, int endX, int startY, int endY, int cant_iteraciones) {
         this.width = width;
         this.height = height;
         this.startX = startX;
@@ -31,14 +31,14 @@ public class Task implements Runnable {
     @Override
     public void run() {
 
-        int cant_iteraciones = 20; // Puedes ajustar esto según tus necesidades
-        int[] r = new int[cant_iteraciones+1];
-        int[] g = new int[cant_iteraciones+1];
-        int[] b = new int[cant_iteraciones+1];
-        r[cant_iteraciones] = 0;
-        g[cant_iteraciones] = 0;
-        b[cant_iteraciones] = 0;
-        for (int i = 0; i < cant_iteraciones; i++) {
+        int iteraciones = this.cant_iteraciones; // Puedes ajustar esto según tus necesidades
+        int[] r = new int[iteraciones+1];
+        int[] g = new int[iteraciones+1];
+        int[] b = new int[iteraciones+1];
+        r[iteraciones] = 0;
+        g[iteraciones] = 0;
+        b[iteraciones] = 0;
+        for (int i = 0; i < iteraciones; i++) {
             int argb = Color.HSBtoRGB((float) i / (float) cant_iteraciones, 1, 1);
             r[i] = (argb >> 16) & 255;
             g[i] = (argb >> 8) & 255;
@@ -48,7 +48,7 @@ public class Task implements Runnable {
         for (int i = startY; i < endY; i++) {
             for (int j = startX; j < endX; j++) {
                 // Evalua el color del píxel
-                int[] color = evaluateColor(i, j);
+                int[] color = evaluateColor(i, j, r,g,b);
 
                 // Asigna el color al píxel
                 raster.setPixel(i, j, color);
@@ -57,7 +57,7 @@ public class Task implements Runnable {
     }
 
     // Evalua el color del píxel
-    private int[] evaluateColor(int i, int j) {
+    private int[] evaluateColor(int i, int j, int[] r, int[] g, int[] b) {
         // Mapea la posición del píxel en el eje x
         double x0 = map(j, 0, width, -2.0, 2.0);
 
