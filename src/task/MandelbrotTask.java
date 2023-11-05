@@ -1,9 +1,11 @@
 package task;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
-import java.util.Random;
+import java.io.File;
+import java.io.IOException;
 
 public class MandelbrotTask extends Task {
 
@@ -16,9 +18,10 @@ public class MandelbrotTask extends Task {
     private double xRange;
     private double yRange;
     private int numIterations;
+    private int column;
 
 
-    public MandelbrotTask(int height, int width, double xStart, double yStart, double xRange, double yRange, int numIterations, WritableRaster raster) {
+    public MandelbrotTask(int height, int width, double xStart, double yStart, double xRange, double yRange, int numIterations, WritableRaster raster, int column) {
         this.height = height;
         this.width = width;
         this.xStart = xStart;
@@ -27,6 +30,7 @@ public class MandelbrotTask extends Task {
         this.yRange = yRange;
         this.numIterations = numIterations;
         this.raster = raster;
+        this.column = column;
     }
 
     @Override
@@ -38,6 +42,7 @@ public class MandelbrotTask extends Task {
         r[numIterations] = 0;
         g[numIterations] = 0;
         b[numIterations] = 0;
+
         for (int i = 0; i < numIterations; i++) {
             int argb = Color.HSBtoRGB((float) i / (float) numIterations, 1, 1);
             r[i] = (argb >> 16) & 255;
@@ -45,10 +50,17 @@ public class MandelbrotTask extends Task {
             b[i] = argb & 255;
         }
 
-        for (int i = 0; i < 256; i++) {
-            for (int j = 0; j < 256; j++) {
-                double x0 = map(i, 0, 256, -2.0, 2.0);  // Mapea la posición en el eje x
-                double y0 = map(j, 0, 256, -2.0, 2.0);  // Mapea la posición en el eje y
+        double toStartX = xStart;
+        double toEndX = toStartX + Math.abs(xRange);
+
+        double toStartY = yStart;
+        double toEndY = toStartY + yRange;
+
+        BufferedImage threadPng = new BufferedImage(height, width, BufferedImage.TYPE_INT_RGB);
+        WritableRaster rasterThread = threadPng.getRaster();
+            for (int j = 0; j < width; j++) {
+                double x0 = map(column, 0, width, toStartX, toEndX);  // Mapea la posición en el eje x
+                double y0 = map(j, 0, height, toStartY, toEndY);  // Mapea la posición en el eje y
                 double x = 0.0;
                 double y = 0.0;
                 int iteration = 0;
@@ -64,13 +76,20 @@ public class MandelbrotTask extends Task {
 
                 // Asigna el color basado en el valor de colorIndex
                 int[] color = {r[colorIndex], g[colorIndex], b[colorIndex]};
-                raster.setPixel(i, j, color);
+                raster.setPixel(column, j, color);
+                rasterThread.setPixel(column, j, color);
             }
+
+
+        File outputfile = new File("./output/thread-" + column + ".png");
+        try {
+            ImageIO.write(threadPng, "png", outputfile);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
     public static double map(double value, double fromStart, double fromEnd, double toStart, double toEnd) {
         return toStart + (value - fromStart) * (toEnd - toStart) / (fromEnd - fromStart);
     }
-
 }
 

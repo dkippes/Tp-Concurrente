@@ -16,35 +16,35 @@ public class ScannerInput {
 
 //        System.out.print("Enter the value of num_threads: ");
 //        num_threads = scanner.nextInt();
-        num_threads = 40;
+        num_threads = 1;
 
 //        System.out.print("Enter the value of buffer_size: ");
 //        buffer_size = scanner.nextInt();
-        buffer_size = 10;
+        buffer_size = 100;
 
 //        System.out.print("Enter the value of height: ");
 //        height = scanner.nextInt();
-        height = 256;
+        height = 64;
 
 //        System.out.print("Enter the value of width: ");
 //        width = scanner.nextInt();
-        width = 256;
+        width = 64;
 
 //        System.out.print("Enter the value of x_start: ");
 //        x_start = scanner.nextDouble();
-        x_start = 1.5;
+        x_start = -2.5;
 
 //        System.out.print("Enter the value of x_range: ");
 //        x_range = scanner.nextDouble();
-        x_range = Math.abs(-2.5 - 0.5);
+        x_range = 3;
 
 //        System.out.print("Enter the value of y_start: ");
 //        y_start = scanner.nextDouble();
-        y_start = -1.5;
+        y_start = 1.5;
 
 //        System.out.print("Enter the value of y_range: ");
 //        y_range = scanner.nextDouble();
-        y_range = Math.abs(1.5 - (-1.5));
+        y_range = -3;
 
 //        System.out.print("Enter the value of num_iterations: ");
 //        num_iterations = scanner.nextInt();
