@@ -1,4 +1,4 @@
-class WorkerCounter {
+public class WorkerCounter {
     private int remainingWorkers;
 
     public WorkerCounter(int totalWorkers) {

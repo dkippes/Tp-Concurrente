@@ -3,52 +3,52 @@ import java.util.Scanner;
 public class ScannerInput {
     private int height;
     private int width;
-    private double x_start;
-    private double y_start;
-    private double x_range;
-    private double y_range;
-    private int num_iterations;
-    private int num_threads;
-    private int buffer_size;
+    private double xStart;
+    private double yStart;
+    private double xRange;
+    private double yRange;
+    private int numIterations;
+    private int numThreads;
+    private int bufferSize;
 
     public ScannerInput() {
         Scanner scanner = new Scanner(System.in);
 
 //        System.out.print("Enter the value of num_threads: ");
 //        num_threads = scanner.nextInt();
-        num_threads = 1;
+        numThreads = 20;
 
 //        System.out.print("Enter the value of buffer_size: ");
 //        buffer_size = scanner.nextInt();
-        buffer_size = 100;
+        bufferSize = 1000;
 
 //        System.out.print("Enter the value of height: ");
 //        height = scanner.nextInt();
-        height = 64;
+        height = 1024;
 
 //        System.out.print("Enter the value of width: ");
 //        width = scanner.nextInt();
-        width = 64;
+        width = 1024;
 
 //        System.out.print("Enter the value of x_start: ");
 //        x_start = scanner.nextDouble();
-        x_start = -2.5;
+        xStart = -0.55;
 
 //        System.out.print("Enter the value of x_range: ");
 //        x_range = scanner.nextDouble();
-        x_range = 3;
+        xRange = 0.0002;
 
 //        System.out.print("Enter the value of y_start: ");
 //        y_start = scanner.nextDouble();
-        y_start = 1.5;
+        yStart = -0.55;
 
 //        System.out.print("Enter the value of y_range: ");
 //        y_range = scanner.nextDouble();
-        y_range = -3;
+        yRange = 0.0002;
 
 //        System.out.print("Enter the value of num_iterations: ");
 //        num_iterations = scanner.nextInt();
-        num_iterations = 50;
+        numIterations = 100;
 
         scanner.close();
     }
@@ -62,30 +62,30 @@ public class ScannerInput {
     }
 
     public double getXStart() {
-        return x_start;
+        return xStart;
     }
 
     public double getYStart() {
-        return y_start;
+        return yStart;
     }
 
     public double getXRange() {
-        return x_range;
+        return xRange;
     }
 
     public double getYRange() {
-        return y_range;
+        return yRange;
     }
 
     public int getNumIterations() {
-        return num_iterations;
+        return numIterations;
     }
 
     public int getNumThreads() {
-        return num_threads;
+        return numThreads;
     }
 
     public int getBufferSize() {
-        return buffer_size;
+        return bufferSize;
     }
 }
