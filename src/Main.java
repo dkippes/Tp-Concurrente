@@ -19,6 +19,7 @@ public class Main {
     // TODO: Cada Worker toma las tareas de a una del Buffer y genera los pixeles.
     // TODO: cant_threads == la cantidad de threads :V
     public static void main(String[] args) throws InterruptedException {
+
         long startTime = System.currentTimeMillis();
         ScannerInput scannerInput = new ScannerInput();
         int alto = scannerInput.getHeight();
@@ -32,6 +33,8 @@ public class Main {
         int tamano_buffer = scannerInput.getBufferSize();
 
         BufferedImage imagen = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_RGB);
+        WritableRaster raster = imagen.getRaster();
+
         Buffer buffer = new Buffer(tamano_buffer);
         WorkerCounter workerCounter = new WorkerCounter(cant_threads);
 
@@ -42,13 +45,8 @@ public class Main {
         double x_step = x_rango / ancho;
         double y_step = y_rango / alto;
 
-        for (int row = 0; row < alto; row++) {
-            for (int col = 0; col < ancho; col++) {
-                double x = x_inicial + col * x_step;
-                double y = y_inicial - row * y_step;
-                Task task = new MandelbrotTask(imagen, col, row, x, y, cant_iteraciones);
-                buffer.put(task);
-            }
+        for (int i = 0; i < scannerInput.getHeight(); i++) {
+            buffer.put(new MandelbrotTask(scannerInput.getHeight(), scannerInput.getWidth(), scannerInput.getXStart(), scannerInput.getYStart() + i, scannerInput.getXRange(), scannerInput.getYRange(), scannerInput.getNumIterations(), raster));
         }
 
         // Agrega las Poison Pills al buffer
@@ -60,10 +58,10 @@ public class Main {
         workerCounter.waitForCompletion();
 
         // Guarda la imagen generada en un archivo
+        File outputfile = new File("./output/test.png");
         try {
-            File output = new File("mandelbrot.png");
-            ImageIO.write(imagen, "PNG", output);
-        } catch (Exception e) {
+            ImageIO.write(imagen, "png", outputfile);
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
