@@ -24,31 +24,31 @@ public class ScannerInput {
 
 //        System.out.print("Enter the value of height: ");
 //        height = scanner.nextInt();
-        height = 1000;
+        height = 256;
 
 //        System.out.print("Enter the value of width: ");
 //        width = scanner.nextInt();
-        width = 1000;
+        width = 256;
 
 //        System.out.print("Enter the value of x_start: ");
 //        x_start = scanner.nextDouble();
-        x_start = -2.0;
+        x_start = 1.5;
 
 //        System.out.print("Enter the value of x_range: ");
 //        x_range = scanner.nextDouble();
-        x_range = 25.0;
+        x_range = Math.abs(-2.5 - 0.5);
 
 //        System.out.print("Enter the value of y_start: ");
 //        y_start = scanner.nextDouble();
-        y_start = -2.0;
+        y_start = -1.5;
 
 //        System.out.print("Enter the value of y_range: ");
 //        y_range = scanner.nextDouble();
-        y_range = 25.00;
+        y_range = Math.abs(1.5 - (-1.5));
 
 //        System.out.print("Enter the value of num_iterations: ");
 //        num_iterations = scanner.nextInt();
-        num_iterations = 20;
+        num_iterations = 50;
 
         scanner.close();
     }

@@ -46,7 +46,7 @@ public class Main {
         double y_step = y_rango / alto;
 
         for (int i = 0; i < scannerInput.getHeight(); i++) {
-            buffer.put(new MandelbrotTask(scannerInput.getHeight(), scannerInput.getWidth(), scannerInput.getXStart(), scannerInput.getYStart() + i, scannerInput.getXRange(), scannerInput.getYRange(), scannerInput.getNumIterations(), raster));
+            buffer.put(new MandelbrotTask(alto, ancho, x_inicial, y_inicial + i, x_rango, y_rango, cant_iteraciones, raster));
         }
 
         // Agrega las Poison Pills al buffer
