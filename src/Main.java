@@ -23,7 +23,7 @@ public class Main {
         long startTime = System.currentTimeMillis();
         threadPool.start();
 
-        addToBuffer(scannerInput, buffer, raster, cantThreads);
+        prepareBuffer(scannerInput, buffer, raster, cantThreads);
 
         workerCounter.waitForCompletion();
 
@@ -33,7 +33,7 @@ public class Main {
         System.out.println("Tiempo transcurrido: " + (endTime - startTime) + " ms");
     }
 
-    private static void addToBuffer(ScannerInput scannerInput, Buffer buffer, WritableRaster raster, int cantThreads) {
+    private static void prepareBuffer(ScannerInput scannerInput, Buffer buffer, WritableRaster raster, int cantThreads) {
         for (int i = 0; i < scannerInput.getHeight(); i++) {
             buffer.put(new MandelbrotTask(scannerInput.getHeight(), scannerInput.getWidth(), scannerInput.getXStart(), scannerInput.getYStart(), scannerInput.getXRange(), scannerInput.getYRange(), scannerInput.getNumIterations(), raster, i));
         }
