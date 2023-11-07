@@ -30,7 +30,18 @@ public class Main {
         generateImage(image);
 
         long endTime = System.currentTimeMillis();
-        System.out.println("Tiempo transcurrido: " + (endTime - startTime) + " ms");
+        printTime(endTime, startTime);
+    }
+
+    private static void printTime(long endTime, long startTime) {
+        String ANSI_RESET = "\u001B[0m";
+        String ANSI_YELLOW = "\u001B[33m";
+
+        System.out.println("\n-------------------------------------------");
+        System.out.print(ANSI_YELLOW);
+        System.out.println("        Tiempo transcurrido: " + (endTime - startTime) + " ms");
+        System.out.print(ANSI_RESET);
+        System.out.println("-------------------------------------------\n");
     }
 
     private static void prepareBuffer(ScannerInput scannerInput, Buffer buffer, WritableRaster raster, int cantThreads) {

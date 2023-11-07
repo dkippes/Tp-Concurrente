@@ -2,8 +2,8 @@ import task.PoisonPill;
 import task.Task;
 
 public class Worker extends Thread {
-    private Buffer buffer;
-    private WorkerCounter workerCounter;
+    private final Buffer buffer;
+    private final WorkerCounter workerCounter;
 
     public Worker(Buffer buffer, WorkerCounter workerCounter) {
         this.buffer = buffer;

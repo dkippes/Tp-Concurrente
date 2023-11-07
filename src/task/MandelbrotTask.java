@@ -6,15 +6,15 @@ import java.awt.image.WritableRaster;
 public class MandelbrotTask extends Task {
 
 
-    private WritableRaster raster;
-    private int height;
-    private int width;
-    private double xStart;
-    private double yStart;
-    private double xRange;
-    private double yRange;
-    private int numIterations;
-    private int row;
+    private final WritableRaster raster;
+    private final int height;
+    private final int width;
+    private final double xStart;
+    private final double yStart;
+    private final double xRange;
+    private final double yRange;
+    private final int numIterations;
+    private final int row;
 
 
     public MandelbrotTask(int height, int width, double xStart, double yStart, double xRange, double yRange, int numIterations, WritableRaster raster, int row) {

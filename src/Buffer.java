@@ -3,8 +3,8 @@ import task.Task;
 import java.util.LinkedList;
 
 public class Buffer {
-    private LinkedList<Task> tasks;
-    private int capacity;
+    private final LinkedList<Task> tasks;
+    private final int capacity;
 
     public Buffer(int capacity) {
         this.tasks = new LinkedList<>();

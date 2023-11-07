@@ -1,6 +1,6 @@
 public class ThreadPool {
 
-    private Worker[] workers;
+    private final Worker[] workers;
 
     public ThreadPool(int numThreads, Buffer buffer, WorkerCounter workerCounter) {
         workers = new Worker[numThreads];
